@@ -1,0 +1,12 @@
+terraform {
+  #rename  <<account_name>> to be the account short name - aws-prod-<<account_id>>
+  #rename role_arn to be the role to assume to access the bucket
+  backend "s3" {
+    encrypt        = true
+    bucket         = "<<account_name>>-<<account_id>>-tf-state"
+    key            = "state-bucket/terraform.tfstate"
+    dynamodb_table = "terraform-state-lock-dynamo"
+    region         = "<<region>>"
+    role_arn       = "arn:aws:iam::<<account_id>>:role/Terraforming-Local-Admin"
+  }
+}
