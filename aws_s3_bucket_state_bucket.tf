@@ -16,13 +16,13 @@ resource "aws_s3_bucket" "state_bucket" {
     }
   }
 
-  tags = "${merge(var.common_tags,
-    map("Name", "${substr(var.common_tags["Environment"],0,1)}-${upper(var.common_tags["AccountType"])}-${upper(var.common_tags["Application"])}-S3")
-    )}"
+  tags = merge(var.common_tags,
+    map("Name", "${upper(var.environment)}-${upper(var.common_tags["AccountType"])}-${upper(var.common_tags["Application"])}-S3")
+    )
 }
 
 resource "aws_s3_bucket_public_access_block" "bucket_access" {
-  bucket = "${aws_s3_bucket.state_bucket.id}"
+  bucket = aws_s3_bucket.state_bucket.id
 
   block_public_acls       = true
   block_public_policy     = true
